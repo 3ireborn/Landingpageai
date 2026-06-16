@@ -1,0 +1,387 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Landing Page AI 3IReborn | Pakde Sugiarto</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><style>
+
+:root{
+--gold:#f7c948;
+--green:#053b2d;
+--green2:#0b5d45;
+--white:#ffffff;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:linear-gradient(135deg,#03271e,#0a4d39);
+color:white;
+overflow-x:hidden;
+}
+
+.container{
+width:90%;
+max-width:1200px;
+margin:auto;
+}
+
+section{
+padding:80px 0;
+}
+
+h1,h2,h3{
+font-weight:800;
+}
+
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+}
+
+.hero-content{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+align-items:center;
+}
+
+.badge{
+display:inline-block;
+background:rgba(247,201,72,.15);
+border:1px solid var(--gold);
+padding:10px 20px;
+border-radius:50px;
+color:var(--gold);
+margin-bottom:20px;
+}
+
+.hero h1{
+font-size:60px;
+line-height:1.1;
+color:var(--gold);
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:20px;
+line-height:1.8;
+}
+
+.hero-img{
+text-align:center;
+}
+
+.hero-img img{
+max-width:450px;
+width:100%;
+filter:drop-shadow(0 0 25px rgba(247,201,72,.4));
+}
+
+.btn{
+display:inline-block;
+margin-top:30px;
+padding:18px 35px;
+background:#25D366;
+color:white;
+text-decoration:none;
+border-radius:60px;
+font-weight:700;
+font-size:18px;
+transition:.3s;
+}
+
+.btn:hover{
+transform:translateY(-4px);
+}
+
+.section-title{
+text-align:center;
+font-size:42px;
+margin-bottom:20px;
+color:var(--gold);
+}
+
+.section-sub{
+text-align:center;
+max-width:800px;
+margin:auto;
+margin-bottom:50px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.card{
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(10px);
+padding:30px;
+border-radius:25px;
+border:1px solid rgba(255,255,255,.1);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card h3{
+margin-bottom:15px;
+color:var(--gold);
+}
+
+.ai-box{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+align-items:center;
+}
+
+.ai-image img{
+width:100%;
+border-radius:25px;
+}
+
+.list{
+line-height:2.2;
+font-size:18px;
+}
+
+.bonus{
+background:rgba(255,255,255,.05);
+border-radius:30px;
+padding:50px;
+text-align:center;
+}
+
+.bonus img{
+max-width:350px;
+width:100%;
+border-radius:20px;
+margin-top:30px;
+}
+
+.flow{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:20px;
+margin-top:40px;
+}
+
+.flow-box{
+background:#0d6048;
+padding:20px 25px;
+border-radius:15px;
+font-weight:700;
+}
+
+.profile{
+display:grid;
+grid-template-columns:350px 1fr;
+gap:50px;
+align-items:center;
+}
+
+.profile img{
+width:100%;
+border-radius:25px;
+}
+
+.quote{
+font-size:22px;
+font-style:italic;
+color:var(--gold);
+line-height:1.8;
+}
+
+.cta{
+text-align:center;
+background:linear-gradient(135deg,#f7c948,#d9a520);
+color:#111;
+border-radius:30px;
+padding:60px;
+}
+
+.cta h2{
+font-size:42px;
+margin-bottom:20px;
+}
+
+.cta p{
+font-size:20px;
+}
+
+.footer{
+padding:30px;
+text-align:center;
+opacity:.8;
+}
+
+.floating-wa{
+position:fixed;
+right:20px;
+bottom:20px;
+width:70px;
+height:70px;
+background:#25D366;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:32px;
+text-decoration:none;
+color:white;
+box-shadow:0 0 20px rgba(0,0,0,.3);
+z-index:999;
+}
+
+.counter{
+display:flex;
+justify-content:center;
+gap:30px;
+margin-top:40px;
+}
+
+.counter-box{
+text-align:center;
+}
+
+.counter-box h3{
+font-size:40px;
+color:var(--gold);
+}
+
+@media(max-width:900px){
+
+.hero-content,
+.ai-box,
+.profile{
+grid-template-columns:1fr;
+}
+
+.hero{
+padding-top:50px;
+}
+
+.hero h1{
+font-size:42px;
+}
+
+.section-title{
+font-size:32px;
+}
+
+.cta h2{
+font-size:30px;
+}
+
+}
+
+</style></head><body><a class="floating-wa"
+href="https://wa.me/6282240001731"
+target="_blank">
+💬
+</a>
+
+<section class="hero">
+<div class="container"><div class="hero-content"><div><div class="badge">
+🚀 Landing Page AI 3IReborn
+</div><h1>
+Punya Landing Page AI
+3IReborn Sendiri?
+</h1><p>
+Leads langsung masuk ke WA pribadi Anda.
+Bukan rebutan prospek.
+Bukan numpang promosi.
+Bekerja 24 jam non stop.
+</p><a href="https://wa.me/6282240001731" class="btn">
+📲 Saya Mau LP AI 3IReborn
+</a></div><div class="hero-img">
+<img src="pakde-hero.png" alt="Pakde Sugiarto">
+</div></div></div>
+</section><section><div class="container"><h2 class="section-title">
+🔥 Kenapa Harus Punya LP AI Ini?
+</h2><p class="section-sub">
+Teknologi AI yang membantu Anda membangun bisnis lebih cepat dan profesional.
+</p><div class="grid"><div class="card">
+<h3>📱 WA Pribadi</h3>
+<p>Semua prospek langsung masuk ke WhatsApp Anda.</p>
+</div><div class="card">
+<h3>🛠 Room Admin</h3>
+<p>Dapat akses admin dan kelola landing page sendiri.</p>
+</div><div class="card">
+<h3>👥 Untuk Mitra</h3>
+<p>Bisa membuat landing page untuk tim dan mitra lain.</p>
+</div><div class="card">
+<h3>💰 Untung Berkali-kali</h3>
+<p>Sekali beli, manfaat jangka panjang.</p>
+</div><div class="card">
+<h3>⚡ AI Otomatis</h3>
+<p>Bekerja menjelaskan bisnis Anda siang malam.</p>
+</div><div class="card">
+<h3>♾ Seumur Hidup</h3>
+<p>Tidak perlu langganan bulanan.</p>
+</div></div></div></section><section><div class="container"><div class="ai-box"><div><h2 style="color:#f7c948;margin-bottom:20px;">
+🤖 Teknologi AI Bekerja Untuk Anda
+</h2><div class="list">
+✅ Saat Anda tidur<br>
+✅ Saat Anda ngopi<br>
+✅ Saat Anda di masjid<br>
+✅ Saat Anda bersama keluarga<br><br>Landing Page tetap bekerja menjelaskan bisnis Anda dan mengarahkan prospek ke WA pribadi Anda.
+
+</div></div><div class="ai-image">
+<img src="poster-ai.jpg">
+</div></div></div></section><section><div class="container"><div class="bonus"><h2 class="section-title">
+🎁 Bonus AI Poster Motivasi
+</h2><p>
+Upload foto → AI membantu membuat poster motivasi profesional untuk branding Facebook, WhatsApp dan promosi tim.
+</p><img src="poster-ai.jpg"></div></div></section><section><div class="container"><h2 class="section-title">
+📈 Beli Sekali Untung Berkali-kali
+</h2><div class="flow"><div class="flow-box">BELI LP</div>
+<div class="flow-box">PAKAI SENDIRI</div>
+<div class="flow-box">BANTU MITRA</div>
+<div class="flow-box">NILAI TAMBAH</div>
+<div class="flow-box">UNTUNG BERKALI-KALI</div></div><div class="counter"><div class="counter-box">
+<h3>24</h3>
+<p>Jam Kerja AI</p>
+</div><div class="counter-box">
+<h3>100%</h3>
+<p>WA Pribadi</p>
+</div><div class="counter-box">
+<h3>∞</h3>
+<p>Seumur Hidup</p>
+</div></div></div></section><section><div class="container"><div class="profile"><div>
+<img src="pakde-hero.png">
+</div><div><h2 class="section-title" style="text-align:left;">
+👨‍🏫 Pakde Sugiarto Kurniawan
+</h2><p class="quote">
+"Nganggur aja dulu boleh,
+tapi setelah itu ayo...
+Bangkit dan Berjuang."
+</p><br><p style="line-height:2;">
+Tidak peduli kondisi fisik, yang penting terus bergerak,
+terus belajar dan terus bertumbuh.
+Teknologi hanyalah alat,
+tetapi semangat juang adalah bahan bakarnya.
+</p></div></div></div></section><section><div class="container"><div class="cta"><h2>
+🚀 Siap Punya Landing Page AI Yang Bekerja Untuk Anda?
+</h2><p>
+Leads langsung ke WA pribadi • Dapat Room Admin • Bonus AI Poster Motivasi
+</p><a href="https://wa.me/6282240001731" class="btn">
+CHAT WHATSAPP SEKARANG
+</a></div></div></section><div class="footer">
+© 2026 3IReborn AI Landing Page | Bangkit dan Berjuang
+</div></body>
+</html>
