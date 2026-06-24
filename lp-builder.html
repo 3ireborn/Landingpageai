@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LP Builder - Pembuat Landing Page</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: { primary: '#165DFF', secondary: '#36CFC9', dark: '#1D2129' },
+        fontFamily: { sans: ['Inter','system-ui','sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+  .dragging{opacity:.5;outline:2px dashed #165DFF}
+  .drop-zone-active{background:#EEF4FF !important;outline:2px dashed #165DFF}
+  .selected-el{outline:2px solid #165DFF !important;outline-offset:2px}
+</style>
+</head>
+<body class="bg-slate-50 text-dark h-screen flex flex-col overflow-hidden">
+
+<header class="bg-white border-b h-14 flex items-center justify-between px-4 shadow-sm z-30">
+  <div class="flex items-center gap-2">
+    <i class="fa fa-paint-brush text-primary text-xl"></i>
+    <h1 class="font-bold">LP Builder</h1>
+  </div>
+  <div class="flex items-center gap-1 text-xs">
+    <select id="tplSelect" class="border rounded px-2 py-1"><option value="blank">Kosong</option><option value="produk">Produk</option><option value="leadgen">Prospek</option></select>
+    <button onclick="muatTemplate()" class="px-2 py-1 rounded hover:bg-slate-100">Terapkan</button>
+    <button onclick="simpanProyek()" class="px-2 py-1 rounded hover:bg-slate-100">Simpan</button>
+    <button onclick="pratinjau()" class="bg-primary/10 text-primary px-2 py-1 rounded">Lihat</button>
+    <button onclick="eksporKode()" class="bg-primary text-white px-2 py-1 rounded">Unduh</button>
+  </div>
+</header>
+
+<main class="flex-1 flex overflow-hidden">
+  <aside class="w-60 bg-white border-r p-3 overflow-y-auto text-sm">
+    <b class="text-slate-600">Seret ke kanvas</b>
+    <div class="mt-2 space-y-1.5">
+      <div draggable="true" data-type="heading" class="drag-el border rounded p-2 cursor-grab">📌 Judul</div>
+      <div draggable="true" data-type="text" class="drag-el border rounded p-2 cursor-grab">📝 Teks</div>
+      <div draggable="true" data-type="image" class="drag-el border rounded p-2 cursor-grab">🖼️ Gambar</div>
+      <div draggable="true" data-type="button" class="drag-el border rounded p-2 cursor-grab">🔘 Tombol</div>
+      <div draggable="true" data-type="divider" class="drag-el border rounded p-2 cursor-grab">➖ Garis</div>
+      <div draggable="true" data-type="spacer" class="drag-el border rounded p-2 cursor-grab">📏 Jarak</div>
+      <div draggable="true" data-type="list" class="drag-el border rounded p-2 cursor-grab">📋 Daftar</div>
+      <div draggable="true" data-type="form" class="drag-el border rounded p-2 cursor-grab">✉️ Form Email</div>
+      <div draggable="true" data-type="container" class="drag-el border rounded p-2 cursor-grab">📦 Bagian</div>
+    </div>
+    <hr class="my-3">
+    <b class="text-slate-600">Halaman</b>
+    <div class="mt-2 space-y-2 text-xs">
+      <input id="pageTitle" class="w-full border rounded px-2 py-1" value="Landing Page Saya">
+      <label>Warna latar <input id="pageBg" type="color" class="w-full h-7" value="#ffffff"></label>
+      <button onclick="resetKanvas()" class="w-full text-red-500 border border-red-100 rounded py-1 mt-1">🗑️ Bersihkan</button>
+    </div>
+  </aside>
+
+  <section class="flex-1 bg-slate-100 overflow-y-auto p-4 flex justify-center">
+    <div id="kanvas" class="bg-white min-h-full w-full max-w-5xl shadow">
+      <p class="text-center text-slate-400 py-24">⬅️ Seret komponen dari kiri ke sini</p>
+    </div>
+  </section>
+
+  <aside id="panelProperti" class="w-64 bg-white border-l p-3 overflow-y-auto hidden text-sm">
+    <div class="flex justify-between"><b>Pengaturan</b><button onclick="tutupPanel()">✕</button></div>
+    <div id="isiProperti" class="mt-2 space-y-2 text-xs"></div>
+    <div class="mt-4 pt-3 border-t space-y-1 text-xs">
+      <button onclick="pindahAtas()" class="w-full border rounded py-1">⬆️ Naik</button>
+      <button onclick="pindahBawah()" class="w-full border rounded py-1">⬇️ Turun</button>
+      <button onclick="hapusElemen()" class="w-full text-red-500 border border-red-100 rounded py-1">🗑️ Hapus</button>
+    </div>
+  </aside>
+</main>
+
+<script>
+const kanvas=document.getElementById('kanvas'),panel=document.getElementById('panelProperti'),isi=document.getElementById('isiProperti');
+let pil=null,idc=0;
+document.querySelectorAll('.drag-el').forEach(e=>{
+  e.ondragstart=ev=>{ev.dataTransfer.setData('j',e.dataset.type);e.classList.add('dragging')}
+  e.ondragend=()=>e.classList.remove('dragging')
+})
+kanvas.ondragover=e=>{e.preventDefault();kanvas.classList.add('drop-zone-active')}
+kanvas.ondragleave=()=>kanvas.classList.remove('drop-zone-active')
+kanvas.ondrop=e=>{e.preventDefault();kanvas.classList.remove('drop-zone-active');tambah(e.dataTransfer.getData('j'))}
+kanvas.onclick=e=>{if(e.target===kanvas){pil=null;document.querySelectorAll('.selected-el').forEach(x=>x.classList.remove('selected-el'));tutupPanel()}}
+document.getElementById('pageBg').oninput=e=>kanvas.style.background=e.target.value
+
+function tambah(t,d={}){
+  const id='e'+(++idc),m={'<':'&lt;','>':'&gt;'};let h='';
+  if(t==='heading')h=`<h1 data-id="${id}" data-t="heading" class="lp-el text-3xl font-bold my-3">${d.t||'Judul Utama'}</h1>`
+  if(t==='text')h=`<p data-id="${id}" data-t="text" class="lp-el my-2 leading-relaxed">${d.t||'Tulis penjelasan di sini.'}</p>`
+  if(t==='image')h=`<img data-id="${id}" data-t="image" class="lp-el my-3 rounded max-w-full" src="${d.s||'https://picsum.photos/1200/500'}">`
+  if(t==='button')h=`<div data-id="${id}" data-t="button" class="lp-el my-3 inline-block"><a href="${d.l||'#'}" class="px-5 py-2 rounded bg-primary text-white">${d.t||'Klik Di Sini'}</a></div>`
+  if(t==='divider')h=`<hr data-id="${id}" data-t="divider" class="lp-el my-5">`
+  if(t==='spacer')h=`<div data-id="${id}" data-t="spacer" class="lp-el" style="height:${d.h||40}px"></div>`
+  if(t==='list')h=`<ul data-id="${id}" data-t="list" class="lp-el list-disc pl-5 my-2"><li>Satu</li><li>Dua</li><li>Tiga</li></ul>`
+  if(t==='form')h=`<form data-id="${id}" data-t="form" class="lp-el my-3 flex gap-2 max-w-md" onsubmit="event.preventDefault();alert('Terima kasih')"><input required type="email" placeholder="email@kamu.com" class="flex-1 border rounded px-2 py-1 text-sm"><button class="bg-primary text-white px-3 rounded text-sm">Kirim</button></form>`
+  if(t==='container')h=`<section data-id="${id}" data-t="container" class="lp-el py-8 px-5 my-2 rounded" style="background:#F2F3F5"><h2 class="text-xl font-bold mb-1">${d.j||'Bagian Baru'}</h2><p class="text-slate-600 text-sm">${d.d||'Isi bagian ini sesuai kebutuhan.'}</p></section>`
+  if(kanvas.querySelector('p.text-slate-400'))kanvas.innerHTML='';
+  kanvas.insertAdjacentHTML('beforeend',h);pasang()
+}
+function pasang(){document.querySelectorAll('.lp-el').forEach(e=>e.onclick=ev=>{ev.stopPropagation();pilih(e)})}
+function pilih(e){
+  document.querySelectorAll('.selected-el').forEach(x=>x.classList.remove('selected-el'));
+  pil=e;e.classList.add('selected-el');buka(e)
+}
+function buka(e){
+  panel.classList.remove('hidden');let o='',t=e.dataset.t;
+  if(t==='heading'||t==='text')o=`<textarea rows="4" data-a="innerText" class="w-full border rounded px-2 py-1">${e.innerText}</textarea>`
+  if(t==='image')o=`<input data-a="src" value="${e.src}" class="w-full border rounded px-2 py-1">`
+  if(t==='button'){const a=e.querySelector('a');o=`<input data-a="innerText" data-tar="a" value="${a.innerText}" class="w-full border rounded px-2 py-1 mb-1"><input data-a="href" data-tar="a" value="${a.href}" class="w-full border rounded px-2 py-1">`}
+  if(t==='spacer')o=`<input type="number" data-s="height" data-u="px" value="${parseInt(e.style.height||40)}" class="w-full border rounded px-2 py-1">`
+  isi.innerHTML=o;
+  isi.querySelectorAll('[data-a],[data-s]').forEach(i=>i.oninput=()=>{
+    const x=i.dataset.tar?pil.querySelector(i.dataset.tar):pil;
+    if(i.dataset.a)x[i.dataset.a]=i.value;
+    if(i.dataset.s)x.style[i.dataset.s]=i.value+(i.dataset.u||'')
+  })
+}
+function tutupPanel(){panel.classList.add('hidden')}
+function hapusElemen(){if(pil){pil.remove();tutupPanel();if(!kanvas.querySelector('.lp-el'))kanvas.innerHTML='<p class="text-center text-slate-400 py-24">⬅️ Seret komponen dari kiri ke sini</p>'}}
+function pindahAtas(){if(pil?.previousElementSibling)pil.parentNode.insertBefore(pil,pil.previousElementSibling)}
+function pindahBawah(){if(pil?.nextElementSibling)pil.parentNode.insertBefore(pil.nextElementSibling,pil)}
+function resetKanvas(){if(confirm('Yakin hapus semua?'))kanvas.innerHTML='<p class="text-center text-slate-400 py-24">⬅️ Seret komponen dari kiri ke sini</p>'}
+const T={produk:[{t:'container',d:{j:'Produk Terbaik'}},{t:'heading',d:{t:'Solusi Cepat Untukmu'}},{t:'image'},{t:'text'},{t:'button'}],leadgen:[{t:'heading',d:{t:'Dapatkan Gratis'}},{t:'text'},{t:'form'},{t:'divider'},{t:'list'}]}
+function muatTemplate(){const n=document.getElementById('tplSelect').value;if(n==='blank')return resetKanvas();kanvas.innerHTML='';T[n].forEach(x=>tambah(x.t,x.d||{}))}
+function simpanProyek(){localStorage.setItem('lp',JSON.stringify({j:document.getElementById('pageTitle').value,b:document.getElementById('pageBg').value,h:kanvas.innerHTML}));alert('Tersimpan')}
+function htmlJadi(){return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>${document.getElementById('pageTitle').value}</title><script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"><\/script><style>body{background:${document.getElementById('pageBg').value}}</style></head><body><main class="max-w-5xl mx-auto bg-white">${kanvas.innerHTML.replace(/ data-[^"]+="[^"]*"/g,'').replace(/ lp-el| selected-el/g,'')}</main></body></html>`}
+function pratinjau(){const w=open('','_blank');w.document.write(htmlJadi());w.document.close()}
+function eksporKode(){const a=document.createElement('a');a.href='data:text/html;charset=utf-8,'+encodeURIComponent(htmlJadi());a.download=(document.getElementById('pageTitle').value||'lp').toLowerCase().replace(/\s+/g,'-')+'.html';a.click()}
+</script>
+</body></html>
